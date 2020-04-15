@@ -1,0 +1,45 @@
+<ui:composition template="/facelets/commonLayout.xhtml"
+   				xmlns="http://www.w3.org/1999/xhtml"
+   				xmlns:ui="http://java.sun.com/jsf/facelets"
+  				xmlns:f="http://java.sun.com/jsf/core"
+  				xmlns:h="http://java.sun.com/jsf/html"
+  				lang="en-US">
+  	<ui:define name="title">Register</ui:define>
+  	
+  	<ui:define name="content">
+  	
+		<div align="center">
+		
+			<div class="form">
+			
+				<h1>Register</h1>
+				
+				<h:form>
+				
+					<label class="inputText">Username</label><h:messages styleClass="errorMessage" for="username" errorStyle="color: red" layout="table"/>
+					
+					<h:inputText class="input" id="username" value="#{user.username}"/><br/><br/>	  
+					
+					<label class="inputText">Password</label><h:messages styleClass="errorMessage" for="password" errorStyle="color: red" layout="table"/>
+					
+					<h:inputSecret class="input" id="password" value="#{user.password}"/><br/><br/>
+					
+					<h:commandButton styleClass="button" value="Register" action="#{userController.register(user)}"/><br/>
+				
+				</h:form>
+				
+				<div>
+					<p>Already have an account?</p>
+					
+					<h:link style="color: blue;" value="Login" outcome="Login.xhtml"/><br/><br/>
+				
+				</div>
+				
+			</div>
+
+		
+		</div>
+	
+	</ui:define>
+	
+</ui:composition>

@@ -1,0 +1,49 @@
+<ui:composition template="/facelets/commonLayout.xhtml"
+   				xmlns="http://www.w3.org/1999/xhtml"
+   				xmlns:ui="http://java.sun.com/jsf/facelets"
+  				xmlns:f="http://java.sun.com/jsf/core"
+  				
+  				xmlns:h="http://java.sun.com/jsf/html"
+  				lang="en-US">
+  				
+	<ui:define name="title">Products</ui:define>
+	
+	<ui:define name="content">
+			
+		<div align="center">
+		
+			<br/>
+			
+			<h:dataTable value="#{sensorDataController.sensorData}" var="sensorData" border="2" cellspacing="1" cellpadding="1">
+				
+				<h:column>
+				
+					<f:facet name="header">Pressure</f:facet>
+					
+                    #{sensorData.pressure}
+                    
+            	</h:column>
+            	
+				<h:column>
+				
+					<f:facet name="header">Temperature</f:facet>
+					
+                    #{sensorData.temperatureInFahrenheit}
+                    
+            	</h:column>
+            	
+				<h:column>
+				
+					<f:facet name="header">Pressure</f:facet>
+					
+                    #{sensorData.timestamp}
+                    
+            	</h:column>
+					
+			</h:dataTable>
+			
+		</div>
+	
+	</ui:define>
+	
+</ui:composition>

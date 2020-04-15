@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      lang="en-US"> 
+
+	<h:head>
+        <title>Session expired</title>
+        <meta http-equiv="refresh" content="3;url=#{request.contextPath}/login.xhtml" />
+	</h:head> 
+	<h:body class="main"> 
+		<div>
+		    <div class="header">
+		    	<ui:insert name="header">
+		    		<ui:include src="/facelets/commonHeader.xhtml"/>
+		    	</ui:insert>
+	   		</div>
+	   		<div id="welcome">
+	   			<h1>Session expired</h1>
+	   			<h3>You will be redirected to login page</h3>
+	   		</div>
+	   		<div class="footer">
+		    	<ui:insert name="footer">
+		    		<ui:include src="/facelets/commonFooter.xhtml"/>
+		    	</ui:insert>
+	    	</div>
+   		</div>
+	</h:body> 
+</html>
