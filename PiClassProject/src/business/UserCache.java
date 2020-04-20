@@ -1,8 +1,5 @@
 package business;
 
-import java.util.HashMap;
-
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
@@ -15,31 +12,17 @@ import beans.User;
  */
 @Startup
 @Singleton
-public class UserCache {
-	
-	/**
-	 * Hashmap for the cache.
-	 */
-	private HashMap<String, User> cache;
-	
-	/**
-	 * Initializes the Hashmap.
-	 */
-	@PostConstruct
-	public void init() {
-		
-		cache = new HashMap<>();
-		
-	}
+public class UserCache extends Cache<User> {
 	
 	/**
 	 * Gets the object.
-	 * @param user
+	 * @param object
 	 * @return
 	 */
-	public User getObject(User user) {
+	@Override
+	public User getObject(User object) {
 		
-		String key = user.getUsername();
+		String key = object.getUsername();
 		
 		if(cache.containsKey(key)) {
 						
@@ -61,13 +44,14 @@ public class UserCache {
 	
 	/**
 	 * Puts the object in the cache.
-	 * @param user
+	 * @param object
 	 */
-	public void putObject(User user) {
+	@Override
+	public void putObject(User object) {
 		
-		String key = user.getUsername();
+		String key = object.getUsername();
 		
-		cache.put(key, user);
+		cache.put(key, object);
 		
 		System.out.println("Cache put for " + key);
 		

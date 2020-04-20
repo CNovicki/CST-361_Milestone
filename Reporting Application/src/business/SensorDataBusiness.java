@@ -27,11 +27,6 @@ public class SensorDataBusiness {
 	 * Jackson library used for REST.
 	 */
 	private ObjectMapper mapper;
-	
-	/**
-	 * Array of sensor data.
-	 */
-	private SensorData[] sensorData;
 				
 	/**
 	 * Creates a new sensor data service.
@@ -41,9 +36,59 @@ public class SensorDataBusiness {
 		response = new StringBuffer();
 		
 		mapper = new ObjectMapper();
+					
+	}
+	
+	public SensorData getSensorData(String pressure, String temperature, String date) {
 		
-		sensorData = null;
+		SensorData sensorData = null;
+		
+		try {
 			
+			URL url = new URL("http://137.152.83.105:80/rest/weather/getsensordataj/" + pressure + "/" + temperature + "/" + date);
+			
+			String readLine = null;
+			
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			
+			connection.setRequestMethod("GET");
+			
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			
+			while((readLine = reader.readLine()) != null) {
+				
+				response.append(readLine);
+				
+			}
+			
+			String newString = response.toString();
+						
+			newString = newString.replace("status", "");
+			
+			newString = newString.replace("message", "");
+			
+			newString = newString.replace("data", "");
+			
+			int index = newString.indexOf("{", newString.indexOf("{") + 1);
+							
+			newString = newString.substring(index);
+				
+			newString = newString.substring(0, newString.length() - 1);
+			
+			reader.close();
+											
+			sensorData = mapper.readValue(newString, SensorData.class);
+			
+		}	
+			
+		catch (IOException e) {
+		
+			e.printStackTrace();
+					
+		}
+		
+		return sensorData;
+		
 	}
 	
 	/**
@@ -51,10 +96,12 @@ public class SensorDataBusiness {
 	 * @return
 	 */
 	public SensorData[] getAllSensorData() {
+		
+		SensorData[] sensorData = null;
 				
 		try {
 				
-			URL url = new URL("http://localhost:8080/PiClassProject/rest/weather/getallsensordataj");
+			URL url = new URL("http://137.152.83.105:80/rest/weather/getallsensordataj");
 			
 			String readLine = null;
 			
@@ -114,7 +161,7 @@ public class SensorDataBusiness {
 			
 			System.out.println(requestBody);
 			
-			URL url = new URL("http://localhost:8080/PiClassProject/rest/weather/savej");
+			URL url = new URL("http://137.152.83.105:80/rest/weather/savesensordataj");
 			
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			
@@ -186,16 +233,4 @@ public class SensorDataBusiness {
 	
 	}
 
-	public SensorData[] getSensorData() {
-	
-		return sensorData;
-	
-	}
-
-	public void setSensorData(SensorData[] sensorData) {
-	
-		this.sensorData = sensorData;
-	
-	}
-	
 }

@@ -1,8 +1,5 @@
 package business;
 
-import java.util.HashMap;
-
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
@@ -15,31 +12,17 @@ import beans.SensorData;
  */
 @Startup
 @Singleton
-public class SensorDataCache {
-
-	/**
-	 * Hashmap of cache.
-	 */
-	private HashMap<String, SensorData> cache;
-	
-	/**
-	 * Initializes Hashmap.
-	 */
-	@PostConstruct
-	public void init() {
-		
-		cache = new HashMap<>();
-		
-	}
+public class SensorDataCache extends Cache<SensorData> {
 	
 	/**
 	 * Gets the object of the cache.
-	 * @param sensorData
+	 * @param object
 	 * @return
 	 */
-	public SensorData getObject(SensorData sensorData) {
+	@Override
+	public SensorData getObject(SensorData object) {
 		
-		String key = sensorData.getPressure() + " - " + sensorData.getTemperatureInFahrenheit() + " - " + sensorData.getTimestamp();
+		String key = object.getPressure() + " - " + object.getTemperatureInFahrenheit() + " - " + object.getTimestamp();
 		
 		if(cache.containsKey(key)) {
 						
@@ -61,13 +44,14 @@ public class SensorDataCache {
 	
 	/**
 	 * Puts the object in the cache.
-	 * @param sensorData
+	 * @param object
 	 */
-	public void putObject(SensorData sensorData) {
+	@Override
+	public void putObject(SensorData object) {
 		
-		String key = sensorData.getPressure() + " - " + sensorData.getTemperatureInFahrenheit() + " - " + sensorData.getTimestamp();
+		String key = object.getPressure() + " - " + object.getTemperatureInFahrenheit() + " - " + object.getTimestamp();
 		
-		cache.put(key, sensorData);
+		cache.put(key, object);
 		
 		System.out.println("Cache put for " + key);
 		

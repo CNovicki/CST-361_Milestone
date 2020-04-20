@@ -207,7 +207,7 @@ public class SensorDataRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savej")
+	@Path("/savesensordataj")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String saveSensorDataJ(SensorData sensorData) {
@@ -226,7 +226,7 @@ public class SensorDataRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savex")
+	@Path("/savesensordatax")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	public String saveSensorDataX(SensorData sensorData) {

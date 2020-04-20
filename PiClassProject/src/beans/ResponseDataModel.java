@@ -15,15 +15,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="Response")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResponseDataModel<T> extends ResponseModel {
-	
+
 	/**
 	 * The data for the REST service. Generic.
 	 */
+	//@JsonInclude(Include.NON_NULL)
 	private T data;
 	
 	/**
 	 * Used for REST services to get all data. Generic.
 	 */
+	//@JsonInclude(Include.NON_NULL)
 	private List<T> listData;
 	
 	/**

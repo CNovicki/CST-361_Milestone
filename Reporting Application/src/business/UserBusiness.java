@@ -26,11 +26,6 @@ public class UserBusiness {
 	 * Jackson library for REST.
 	 */
 	private ObjectMapper mapper;
-	
-	/**
-	 * the User.
-	 */
-	private User user;
 				
 	/**
 	 * Creates a new user service.
@@ -40,9 +35,7 @@ public class UserBusiness {
 		response = new StringBuffer();
 		
 		mapper = new ObjectMapper();
-		
-		user = null;
-			
+					
 	}
 	
 	/**
@@ -51,10 +44,12 @@ public class UserBusiness {
 	 * @return
 	 */
 	public User getUser(String username) {
+		
+		User user = null;
 				
 		try {
 				
-			URL url = new URL("http://localhost:8080/PiClassProject/rest/user/getuserj/" + username);
+			URL url = new URL("http://137.152.83.105:80/rest/user/getuserj/" + username);
 			
 			String readLine = null;
 			
@@ -121,24 +116,6 @@ public class UserBusiness {
 	public ObjectMapper getMapper() {
 	
 		return mapper;
-	
-	}
-	
-	public void setMapper(ObjectMapper mapper) {
-	
-		this.mapper = mapper;
-	
-	}
-
-	public User getUser() {
-	
-		return user;
-	
-	}
-
-	public void setUser(User user) {
-	
-		this.user = user;
 	
 	}
 

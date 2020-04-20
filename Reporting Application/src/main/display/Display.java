@@ -7,6 +7,9 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import business.UserBusiness;
 import utils.ColorFactory;
@@ -19,7 +22,7 @@ import utils.ColorFactory;
  * @see JPanel
  * @see MenuBar
  */
-public class Display {
+public class Display implements SwingInterface {
 
 	/**
 	 * This is the <b>Launcher</b> <b>JFrame</b>.
@@ -78,8 +81,10 @@ public class Display {
 		this.width = width;
 		//Instantiates the height.
 		this.height = height;
-		//Initializes the JFrame with the title.
+				//Initializes the JFrame with the title.
 		frame = new JFrame("Reporting Application");
+		
+		setDefaultLookAndFeel();
 		//Initializes the JPanel.
 		panel = new JPanel();
 		//Initializes the UserBusiness.
@@ -98,41 +103,64 @@ public class Display {
 	/**
 	 * Creates and draws the display to the screen.
 	 */
-	public void createDisplay() {
+	@Override
+	public void createAndShowGUI() {
 		//Sets the size of the JFrame.
 		frame.setSize(width, height);
 		//Sets the minimum size of the JFrame.
-		frame.setMinimumSize(new Dimension(600, 600));
+		frame.setMinimumSize(new Dimension(width, height + menuBar.getHeight()));
 		//Sets the default close operation of the JFrame to exit.
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//Sets the JFrame to resizable.
-		frame.setResizable(true);
-		//Sets the location of the JFrame to the center.		
-		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 		//Sets the layout of the JFrame to BorderLayout.
 		frame.setLayout(new BorderLayout());
 		//Sets the preferred size of the panel.
 		panel.setPreferredSize(new Dimension(width, height));
 		
+		panel.setMinimumSize(new Dimension(width, height));
+		
 		panel.setLayout(new GridBagLayout());
 		
 		panel.setBackground(ColorFactory.getColor("lightblue"));
 		
-		colorPanel.createColorPanel();
+		colorPanel.createAndShowGUI();
 		
-		dataChart.createDataChart();
+		dataChart.createAndShowGUI();
 										
-		dataEntry.createDataEntry();
+		dataEntry.createAndShowGUI();
 		//Adds the JPanel to the JFrame to the North.
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		//Creates the MenuBar.
-		menuBar.createMenuBar();
+		menuBar.createAndShowGUI();
 		//Adds the MenuBar to the JFrame to the South.
-		frame.getContentPane().add(menuBar.getMenuPanel(), BorderLayout.SOUTH);
+		frame.getContentPane().add(menuBar, BorderLayout.SOUTH);
 		//Packs the JFrame.
 		frame.pack();
+		
+		frame.setLocationRelativeTo(null);
 		//Sets the JFrame to visible.
 		frame.setVisible(true);
+		
+	}
+	
+	private void setDefaultLookAndFeel() {
+		
+		try {
+			
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			
+			SwingUtilities.updateComponentTreeUI(frame);
+									
+		}
+		
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			
+			e.printStackTrace();
+			
+			return;
+			
+		}
 		
 	}
 	

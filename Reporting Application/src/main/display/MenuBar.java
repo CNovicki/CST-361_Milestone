@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -20,7 +22,6 @@ import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -33,12 +34,12 @@ import business.SensorDataBusiness;
  * @author Calvin Novicki
  *
  */
-public class MenuBar implements ActionListener {
+public class MenuBar extends SwingPanel implements ActionListener, SwingInterface {
 
 	/**
-	 * Main menu panel.
+	 * Serial ID.
 	 */
-	private JPanel menuPanel;
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * label for username.
@@ -71,26 +72,6 @@ public class MenuBar implements ActionListener {
 	private JButton submitButton;
 	
 	/**
-	 * passed-in display.
-	 */
-	private Display display;
-	
-	/**
-	 * panel width.
-	 */
-	private int width;
-	
-	/**
-	 * panel height.
-	 */
-	private int height;
-	
-	/**
-	 * panel height.
-	 */
-	private Color color;
-	
-	/**
 	 * username.
 	 */
 	private String username;
@@ -109,16 +90,8 @@ public class MenuBar implements ActionListener {
 	 */
 	public MenuBar(Display display, int width, int height, Color color) {
 				
-		this.display = display;
-		
-		this.width = width;
-		
-		this.height = height;
-		
-		this.color = color;
-				
-		menuPanel = new JPanel();
-		
+		super(display, width, height, color);
+						
 		usernameLabel = new JLabel("Username:");
 		
 		passwordLabel = new JLabel("Password:");
@@ -136,41 +109,36 @@ public class MenuBar implements ActionListener {
 	/**
 	 * Creates menu bar GUI.
 	 */
-	public void createMenuBar() {
+	@Override
+	public void createAndShowGUI() {
+		
+		super.createAndShowGUI();
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
-		menuPanel.setLayout(new GridBagLayout());
-		
-		menuPanel.setPreferredSize(new Dimension(width, height));
-		
-		menuPanel.setMinimumSize(new Dimension(width, height));
-		
-		menuPanel.setMaximumSize(new Dimension(width, height));
-		
-		menuPanel.setBackground(color);
-		
+		setLayout(new GridBagLayout());
+				
 		c.insets = new Insets(5, 5, 5, 5);
 		
-		menuPanel.add(usernameLabel, c);
+		add(usernameLabel, c);
 				
 		usernameField.setPreferredSize(new Dimension(100, 20));
 		
 		usernameField.setText(username);
 						
-		menuPanel.add(usernameField, c);
+		add(usernameField, c);
 		
 		c.insets = new Insets(5, 5, 0, 5);
 		
 		c.gridy = 1;
 				
-		menuPanel.add(passwordLabel, c);
+		add(passwordLabel, c);
 										
 		passwordField.setPreferredSize(new Dimension(100, 20));
 		
 		passwordField.setText(password);
 								
-		menuPanel.add(passwordField, c);
+		add(passwordField, c);
 		
 		helpLabel.setForeground(Color.BLUE);
 		
@@ -210,7 +178,22 @@ public class MenuBar implements ActionListener {
 		
 		c.gridy = 2;
 														
-		menuPanel.add(helpLabel, c);
+		add(helpLabel, c);
+		
+		submitButton.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+										
+					submitButton.doClick();
+					
+				}
+				
+			}
+			
+		});
 						
 		submitButton.setPreferredSize(new Dimension(90, 20));
 		
@@ -220,7 +203,7 @@ public class MenuBar implements ActionListener {
 		
 		c.gridy = 3;
 								
-		menuPanel.add(submitButton, c);
+		add(submitButton, c);
 		
 	}
 	
@@ -229,6 +212,14 @@ public class MenuBar implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		if(usernameField.getText().length() == 0 || passwordField.getPassword().length == 0) {
+			
+			return;
+			
+		}
 		
 		User user = display.getUserBusiness().getUser(usernameField.getText());
 		
@@ -241,22 +232,20 @@ public class MenuBar implements ActionListener {
 			usernameField.setText("");
 			
 			passwordField.setText("");
-			
-			GridBagConstraints c = new GridBagConstraints();
-			
+						
 			c.insets = new Insets(5, 5, 5, 5);
 			
 			c.gridy = 0;
 			
-			display.getPanel().add(display.getColorPanel().getColorPanel(), c);
+			display.getPanel().add(display.getColorPanel(), c);
 			
 			c.gridy = 1;
 			
-			display.getPanel().add(display.getDataChart().getDataPanel(), c);
+			display.getPanel().add(display.getDataChart(), c);
 			
 			c.gridy = 2;
 
-			display.getPanel().add(display.getDataEntry().getDataEntryPanel(), c);
+			display.getPanel().add(display.getDataEntry(), c);
 											
 			SensorDataBusiness sensorDataBusiness = new SensorDataBusiness();
 
@@ -301,9 +290,9 @@ public class MenuBar implements ActionListener {
 			display.getPanel().revalidate();
 			
 		}
-				
-	}
 
+	}
+	
 	/**
 	 * Takes in a string of plaintext, and encrypts using a SHA-256 hash.
 	 * @param plaintext
@@ -352,18 +341,6 @@ public class MenuBar implements ActionListener {
 	 * GETTERS AND SETTERS
 	 */
 	//********************************************************************************//
-
-	public JPanel getMenuPanel() {
-	
-		return menuPanel;
-	
-	}
-
-	public void setMenuPanel(JPanel menuPanel) {
-	
-		this.menuPanel = menuPanel;
-	
-	}
 
 	public JLabel getUsernameLabel() {
 		
@@ -434,54 +411,6 @@ public class MenuBar implements ActionListener {
 	public void setSubmitButton(JButton submitButton) {
 	
 		this.submitButton = submitButton;
-	
-	}
-
-	public Display getDisplay() {
-	
-		return display;
-	
-	}
-
-	public void setDisplay(Display display) {
-	
-		this.display = display;
-	
-	}
-
-	public int getWidth() {
-	
-		return width;
-	
-	}
-
-	public void setWidth(int width) {
-	
-		this.width = width;
-	
-	}
-
-	public int getHeight() {
-	
-		return height;
-	
-	}
-
-	public void setHeight(int height) {
-	
-		this.height = height;
-	
-	}
-
-	public Color getColor() {
-	
-		return color;
-	
-	}
-
-	public void setColor(Color color) {
-	
-		this.color = color;
 	
 	}
 

@@ -124,7 +124,7 @@ public class UserRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savej")
+	@Path("/saveuserj")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String saveUserJ(User user) {
@@ -143,7 +143,7 @@ public class UserRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savex")
+	@Path("/saveuserx")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	public String saveUserX(User user) {

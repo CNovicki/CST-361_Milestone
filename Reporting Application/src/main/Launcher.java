@@ -28,7 +28,7 @@ public class Launcher {
 				//Creates a new display and passes in the width, height, and command arguments.
 				Display display = new Display(800, 600);
 				//Creates the display.
-				display.createDisplay();
+				display.createAndShowGUI();
 				
 			}
 			

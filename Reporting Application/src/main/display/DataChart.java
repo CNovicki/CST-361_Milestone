@@ -16,12 +16,12 @@ import javax.swing.SwingConstants;
  * @author Calvin Novicki
  *
  */
-public class DataChart {
+public class DataChart extends SwingPanel implements SwingInterface {
 	
 	/**
-	 * The data panel.
+	 * Serial ID.
 	 */
-	private JPanel dataPanel;
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * The scroll panel.
@@ -47,26 +47,6 @@ public class DataChart {
 	 * Data label.
 	 */
 	private JLabel date;
-		
-	/**
-	 * Passed-in Display.
-	 */
-	private Display display;
-	
-	/**
-	 * panel width.
-	 */
-	private int width;
-	
-	/**
-	 * panel height.
-	 */
-	private int height;
-	
-	/**
-	 * panel color.
-	 */
-	private Color color;
 	
 	/**
 	 * Creates a new data chart.
@@ -77,16 +57,8 @@ public class DataChart {
 	 */
 	public DataChart(Display display, int width, int height, Color color) {
 		
-		this.display = display;
-		
-		this.width = width;
-		
-		this.height = height;
-		
-		this.color = color;
-		
-		dataPanel = new JPanel();
-		
+		super(display, width, height, color);
+						
 		scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		scrollablePanel = new JPanel();
@@ -102,20 +74,15 @@ public class DataChart {
 	/**
 	 * Creates all chart GUI.
 	 */
-	public void createDataChart() {
+	@Override
+	public void createAndShowGUI() {
+		
+		super.createAndShowGUI();
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
-		dataPanel.setLayout(new GridBagLayout());
-		
-		dataPanel.setPreferredSize(new Dimension(width, height));
-		
-		dataPanel.setMinimumSize(new Dimension(width, height));
-		
-		dataPanel.setMaximumSize(new Dimension(width, height));
-		
-		dataPanel.setBackground(color);
-		
+		setLayout(new GridBagLayout());
+				
 		c.insets = new Insets(5, 5, 5, 5);
 		
 		c.anchor = GridBagConstraints.NORTH;
@@ -136,7 +103,7 @@ public class DataChart {
 		
 		pressure.setForeground(Color.WHITE);
 		
-		dataPanel.add(pressure, c);
+		add(pressure, c);
 		
 		c.gridx = 1;
 				
@@ -152,7 +119,7 @@ public class DataChart {
 		
 		temperature.setForeground(Color.WHITE);
 		
-		dataPanel.add(temperature, c);
+		add(temperature, c);
 		
 		c.gridx = 2;
 		
@@ -168,7 +135,7 @@ public class DataChart {
 		
 		date.setForeground(Color.WHITE);
 		
-		dataPanel.add(date, c);
+		add(date, c);
 		
 		c.insets = new Insets(0, 0, 0, 0);
 		
@@ -182,13 +149,13 @@ public class DataChart {
 		
 		scrollPane.setMinimumSize(new Dimension(width, height - 35));
 		
-		scrollPane.setMaximumSize(new Dimension(width, height - 35));
+		scrollPane.setMaximumSize(new Dimension(width, height - 35));		
 
 		scrollablePanel.setLayout(new GridBagLayout());
 				
 		scrollPane.setViewportView(scrollablePanel);
 								
-		dataPanel.add(scrollPane, c);
+		add(scrollPane, c);
 		
 	}
 	
@@ -197,18 +164,6 @@ public class DataChart {
 	 * GETTERS AND SETTERS
 	 */
 	//********************************************************************************//
-	
-	public JPanel getDataPanel() {
-	
-		return dataPanel;
-	
-	}
-
-	public void setDataPanel(JPanel dataPanel) {
-	
-		this.dataPanel = dataPanel;
-	
-	}
 
 	public JScrollPane getScrollPane() {
 	
@@ -267,54 +222,6 @@ public class DataChart {
 	public void setDate(JLabel date) {
 	
 		this.date = date;
-	
-	}
-
-	public Display getDisplay() {
-	
-		return display;
-	
-	}
-
-	public void setDisplay(Display display) {
-	
-		this.display = display;
-	
-	}
-
-	public int getWidth() {
-	
-		return width;
-	
-	}
-
-	public void setWidth(int width) {
-	
-		this.width = width;
-	
-	}
-
-	public int getHeight() {
-	
-		return height;
-	
-	}
-
-	public void setHeight(int height) {
-	
-		this.height = height;
-	
-	}
-
-	public Color getColor() {
-	
-		return color;
-	
-	}
-
-	public void setColor(Color color) {
-	
-		this.color = color;
 	
 	}
 	

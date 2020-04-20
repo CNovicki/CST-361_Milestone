@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import beans.SensorData;
@@ -21,12 +20,12 @@ import business.SensorDataBusiness;
  * @author Calvin Novicki
  *
  */
-public class DataEntry implements ActionListener {
+public class DataEntry extends SwingPanel implements ActionListener {
 	
 	/**
-	 * data entry panel.
+	 * Serial ID.
 	 */
-	private JPanel dataEntryPanel;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * pressure input.
@@ -49,29 +48,9 @@ public class DataEntry implements ActionListener {
 	private JButton addData;
 	
 	/**
-	 * passed-in display.
-	 */
-	private Display display;
-	
-	/**
 	 * passed-in data chart.
 	 */
 	private DataChart dataChart;
-	
-	/**
-	 * panel width.
-	 */
-	private int width;
-	
-	/**
-	 * panel height.
-	 */
-	private int height;
-	
-	/**
-	 * panel color.
-	 */
-	private Color color;
 	
 	/**
 	 * Creates a new data entry panel.
@@ -83,18 +62,10 @@ public class DataEntry implements ActionListener {
 	 */
 	public DataEntry(Display display, DataChart dataChart, int width, int height, Color color) {
 		
-		this.display = display;
-		
+		super(display, width, height, color);
+				
 		this.dataChart = dataChart;
-		
-		this.width = width;
-		
-		this.height = height;
-		
-		this.color = color;
-		
-		dataEntryPanel = new JPanel();
-		
+				
 		addPressure = new JTextField();
 		
 		addTemperature = new JTextField();
@@ -108,14 +79,15 @@ public class DataEntry implements ActionListener {
 	/**
 	 * Creates data entry GUI.
 	 */
-	public void createDataEntry() {
+	@Override
+	public void createAndShowGUI() {
+		
+		super.createAndShowGUI();
 		
 		GridBagConstraints c = new GridBagConstraints();
 		
-		dataEntryPanel.setLayout(new GridBagLayout());
-		
-		dataEntryPanel.setBackground(color);
-		
+		setLayout(new GridBagLayout());
+				
 		addPressure.setPreferredSize(new Dimension(width / 3, 20));
 		
 		addPressure.setMinimumSize(new Dimension(width / 3, 20));
@@ -130,7 +102,7 @@ public class DataEntry implements ActionListener {
 		
 		c.gridheight = 2;
 		
-		dataEntryPanel.add(addPressure, c);
+		add(addPressure, c);
 		
 		addTemperature.setPreferredSize(new Dimension(width / 3, 20));
 		
@@ -140,7 +112,7 @@ public class DataEntry implements ActionListener {
 								
 		c.gridx = 1;
 		
-		dataEntryPanel.add(addTemperature, c);
+		add(addTemperature, c);
 		
 		addDate.setPreferredSize(new Dimension(width / 3, 20));
 		
@@ -150,7 +122,7 @@ public class DataEntry implements ActionListener {
 								
 		c.gridx = 2;
 		
-		dataEntryPanel.add(addDate, c);
+		add(addDate, c);
 		
 		addData.setPreferredSize(new Dimension(width / 3, 20));
 		
@@ -170,7 +142,7 @@ public class DataEntry implements ActionListener {
 		
 		c.gridy = 2;
 				
-		dataEntryPanel.add(addData, c);
+		add(addData, c);
 		
 	}
 
@@ -181,7 +153,7 @@ public class DataEntry implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		SensorDataBusiness sensorDataBusiness = new SensorDataBusiness();
-						
+								
 		GridBagConstraints c = new GridBagConstraints();
 		
 		String pressure = addPressure.getText();
@@ -191,6 +163,10 @@ public class DataEntry implements ActionListener {
 		String date = addDate.getText();
 				
 		SensorData sensorData = new SensorData(Double.valueOf(pressure), Double.valueOf(temperature), date);
+		
+		sensorDataBusiness.writeSensorData(sensorData);
+		
+		//sensorData = sensorDataBusiness.getSensorData(pressure, temperature, date);
 		
 		JLabel pressureData = new JLabel(pressure);
 		
@@ -213,11 +189,7 @@ public class DataEntry implements ActionListener {
 		dataChart.getScrollablePanel().add(dateData, c);
 		
 		dataChart.getScrollablePanel().revalidate();
-		
-		dataChart.getScrollablePanel().repaint();
-				
-		sensorDataBusiness.writeSensorData(sensorData);
-				
+						
 	}
 	
 	//********************************************************************************//
@@ -225,18 +197,6 @@ public class DataEntry implements ActionListener {
 	 * GETTERS AND SETTERS
 	 */
 	//********************************************************************************//
-	
-	public JPanel getDataEntryPanel() {
-	
-		return dataEntryPanel;
-	
-	}
-
-	public void setDataEntryPanel(JPanel dataEntryPanel) {
-	
-		this.dataEntryPanel = dataEntryPanel;
-	
-	}
 
 	public JTextField getAddPressure() {
 	
@@ -286,51 +246,15 @@ public class DataEntry implements ActionListener {
 	
 	}
 
-	public Display getDisplay() {
+	public DataChart getDataChart() {
 	
-		return display;
-	
-	}
-
-	public void setDisplay(Display display) {
-	
-		this.display = display;
+		return dataChart;
 	
 	}
 
-	public int getWidth() {
+	public void setDataChart(DataChart dataChart) {
 	
-		return width;
-
-	}
-
-	public void setWidth(int width) {
-	
-		this.width = width;
-	
-	}
-
-	public int getHeight() {
-	
-		return height;
-	
-	}
-
-	public void setHeight(int height) {
-	
-		this.height = height;
-	
-	}
-
-	public Color getColor() {
-	
-		return color;
-	
-	}
-
-	public void setColor(Color color) {
-	
-		this.color = color;
+		this.dataChart = dataChart;
 	
 	}
 
