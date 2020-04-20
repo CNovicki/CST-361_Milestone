@@ -148,10 +148,9 @@ public class MenuBar extends SwingPanel implements ActionListener, SwingInterfac
 			public void mousePressed(MouseEvent e) {
 				
 				helpLabel.setForeground(new Color(255, 255, 255));
-				
-				try {
+								try {
 					
-					Desktop.getDesktop().browse(new URI("http://localhost:8080/PiClassProject/Register.xhtml"));
+					Desktop.getDesktop().browse(new URI("http://137.152.83.105:80/Register.xhtml"));
 					
 				}
 				

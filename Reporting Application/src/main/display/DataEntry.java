@@ -163,9 +163,7 @@ public class DataEntry extends SwingPanel implements ActionListener {
 		String date = addDate.getText();
 				
 		SensorData sensorData = new SensorData(Double.valueOf(pressure), Double.valueOf(temperature), date);
-		
-		sensorDataBusiness.writeSensorData(sensorData);
-		
+				
 		//sensorData = sensorDataBusiness.getSensorData(pressure, temperature, date);
 		
 		JLabel pressureData = new JLabel(pressure);
@@ -189,7 +187,8 @@ public class DataEntry extends SwingPanel implements ActionListener {
 		dataChart.getScrollablePanel().add(dateData, c);
 		
 		dataChart.getScrollablePanel().revalidate();
-						
+		
+		sensorDataBusiness.writeSensorData(sensorData);						
 	}
 	
 	//********************************************************************************//
