@@ -207,10 +207,10 @@ public class SensorDataRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savesensordataj")
+	@Path("/postsensordataj")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String saveSensorDataJ(SensorData sensorData) {
+	public String postSensorDataJ(SensorData sensorData) {
 		
 		String response = "The data has been saved";
 		
@@ -226,10 +226,10 @@ public class SensorDataRestService {
 	 * @return
 	 */
 	@POST
-	@Path("/savesensordatax")
+	@Path("/postsensordatax")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	public String saveSensorDataX(SensorData sensorData) {
+	public String postSensorDataX(SensorData sensorData) {
 		
 		String response = "The data has been saved";
 		
